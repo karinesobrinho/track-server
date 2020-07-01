@@ -1,40 +1,53 @@
+import {AsyncStorage} from 'react-native' //armazenamento não criptografado, assincrono, persistente
 import createDataContext from './createDataContext'
+import trackerApi from '../api/tracker'
+import {navigate} from '../navigatorRef'
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case 'add_error':
+      return { ...state, errorMessage: action.payload }
+    case 'signup':
+        return{errorMessage: '', token: action.payload}
     default:
-      return state;
+      return state
   }
-};
-
-const signin = (dispatch) =>{
-    return({email, password})=>{
-        
-        //signin ok === modificar state
-        //signin error === msg de erro
-    }   
 }
 
-const signup = (dispatch) =>{
-    return async ({email, password})=>{
-        // solicitação de autenticação
-        try{
-            const response = await TrackerApi.post('/singup',{email, password})
-            console.log(response.data)
-        } catch (err){
-            console.log(err.message)
-        }
+const signup = dispatch => {
+    // solicitação de autenticação
+  return async ({ email, password }) => {
+    try {
+      const response = await trackerApi.post('/signup', { email, password })
+        await AsyncStorage.setItem( 'token', response.data.token) //armazena a info 
+        dispatch ({type: 'signup', payload: response.data.token})
+
+        navigate('TrackList')
+    } catch (err) {
+      dispatch({
+        type: 'add_error',
+        payload: 'Something went wrong with sign up'
+      })
     }
+  }
 }
 
-const signout = (dispatch)=>{
-    return ()=>{
+const signin = dispatch => {
+  return ({ email, password }) => {
+    // Try to signin
+    // Handle success by updating state
+    // Handle failure by showing error message (somehow)
+  }
+}
 
-    }
+const signout = dispatch => {
+  return () => {
+    // somehow sign out!!!
+  }
 }
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  {signin, signout, signup},
-  { isSignedIn: false }
-);
+  { signin, signout, signup },
+  { token: null, errorMessage: '' }
+)

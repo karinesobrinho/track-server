@@ -12,6 +12,7 @@ import SignupScreen from './src/screens/SignupScreen'
 import SigninScreen from './src/screens/SigninScreen'
 //objetos:
 import {Provider as AuthProvider} from './src/context/AuthContext'
+import {setNavigator} from './src/navigatorRef'
 
 const SwitchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -38,7 +39,7 @@ const App = createAppContainer(SwitchNavigator)
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <App ref={(navigator)=> {setNavigator(navigator)}} />
     </AuthProvider>
   )
 }
