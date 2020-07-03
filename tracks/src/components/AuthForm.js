@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {View, StyleSheet} from 'react-native'
-import {Button, Input, text} from 'react-native-elements'
+import {Button, Input, Text} from 'react-native-elements'
 import Spacer from './Spacer'
 
 const AuthForm = ({headerText, errorMessage, onSubmit, submitButtonText})=> {

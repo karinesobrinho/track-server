@@ -1,11 +1,12 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL : ' http://82ccb57f7d46.ngrok.io'
+    baseURL : 'http://7ae048a8cd31.ngrok.io'
 })
 //link expira a cada 8hrs 
 //rodar ngrok http 3000
 // 3000 === porta em q esta rodando 
+//caso de erro no dev conferir listas de IP adicionadas no mongodb e o link correspondente na pasta index.js(no track-server/scr)
 
 //3 terminais necessarios para rodar o app: 
 //no track: npm start c o expo
