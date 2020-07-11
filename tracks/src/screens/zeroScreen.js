@@ -7,6 +7,7 @@ const zeroScreen = ()=>{
     useEffect(()=>{
         tryLocalSignin()// autenticação de login antes de mostrar as telas iniciais
     }, [])
+    
     return null
 }
 

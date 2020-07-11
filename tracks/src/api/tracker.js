@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL : 'http://7ae048a8cd31.ngrok.io'
+    baseURL : 'http://c5d4e1b86d3f.ngrok.io'
 })
 //link expira a cada 8hrs 
 //rodar ngrok http 3000

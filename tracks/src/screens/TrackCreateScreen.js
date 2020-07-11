@@ -1,37 +1,35 @@
-import React, {useEffect, useState} from 'react'
+import React, { useContext, useCallback} from 'react'
 import { StyleSheet} from 'react-native'
 import {Text} from 'react-native-elements'
 import Maps from '../components/Maps'
-import {SafeAreaView} from 'react-navigation'
-import {requestPermissionsAsync} from 'expo-location'
+import {SafeAreaView, withNavigationFocus} from 'react-navigation'
+import '../Location'
+import {Context as LocationContext} from '../context/LocationContext'
+import useLocation from '../hook/useLocation'
+import TrackForm from '../components/TrackForm'
+import '../context/LocationContext'
 
-const TrackCreateScreen = ()=>{
-    const [err, setErr] = useState(null)
+const TrackCreateScreen = ({ isFocused }) => {
+  const { state, addLocation } = useContext(LocationContext)
+  const callback = useCallback(
+    location => {
+      addLocation(location, state.recording)
+    },
+    [state.recording]
+  )
+  const [err] = useLocation(isFocused, callback);
 
-    const startWatching = async () => {
-        try {
-          const { granted } = await requestPermissionsAsync()
-          if (!granted) {
-            throw new Error('Location permission not granted')
-          }
-        } catch (e) {
-          setErr(e)
-        }
-    }
-
-    useEffect (()=>{
-        startWatching()
-    }, [])
-
+ 
     return(
         <SafeAreaView forceInset={{top:'always'}}>
             <Text h3>TrackCreateScreen</Text>
             <Maps/>
             {err ? <Text>Erro ao localizar</Text> : null}
+            <TrackForm/>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create ({})
 
-export default TrackCreateScreen
+export default withNavigationFocus(TrackCreateScreen)

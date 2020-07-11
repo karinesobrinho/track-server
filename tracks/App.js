@@ -10,10 +10,11 @@ import TrackListScreen from './src/screens/TrackListScreen'
 import TrackCreateScreen from './src/screens/TrackCreateScreen'
 import SignupScreen from './src/screens/SignupScreen'
 import SigninScreen from './src/screens/SigninScreen'
-import zeroScreen from './src/screens/zeroScreen';
+import zeroScreen from './src/screens/zeroScreen'
 //objetos:
 import {Provider as AuthProvider} from './src/context/AuthContext'
 import {setNavigator} from './src/navigatorRef'
+import {Provider as LocationProvider} from './src/context/LocationContext'
 
 const SwitchNavigator = createSwitchNavigator({
   zero: zeroScreen,
@@ -40,8 +41,10 @@ const App = createAppContainer(SwitchNavigator)
 
 export default () => {
   return (
-    <AuthProvider>
-      <App ref={(navigator)=> {setNavigator(navigator)}} />
-    </AuthProvider>
+    <LocationProvider>
+      <AuthProvider>
+        <App ref={(navigator)=> {setNavigator(navigator)}} />
+      </AuthProvider>
+    </LocationProvider>
   )
 }
